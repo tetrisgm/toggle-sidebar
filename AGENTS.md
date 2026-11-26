@@ -4,6 +4,25 @@ This repo owns the `edge-sidebar` helper and the BetterTouchTool (BTT) triggers 
 lists the apps covered, how the helper works and the known limits. Keep `bettertouchtool/triggers.json`, the example
 app list and the README tables in step with what is live; commit and push after a verified change.
 
+## Installing it for a user
+
+1. Check first, change nothing yet: BetterTouchTool is installed and running, and
+   `osascript -e 'tell application "BetterTouchTool" to get_triggers'` answers. If it does not, ask the user to turn on
+   external scripting in BetterTouchTool's settings; do not change that or any other security setting yourself.
+2. Run `./install.sh`. It adds only this repo's triggers (UUIDs `5A1C…`), builds and starts the helper, and prints
+   two `OK` lines. A `WARNING` line means stop and report it.
+3. Do not add `bettertouchtool/extras.json` unless the user asks: it rebinds three-finger swipes and Home/End.
+4. Adapt the app list to the user: `~/.config/edge-sidebar.json`. Remove apps they do not use; for an app that is
+   missing, ask the user for its "toggle sidebar" shortcut (do not guess it) and add a named trigger as the README
+   describes. Safari needs Tab Layout → Vertical, which the user sets.
+5. You cannot hover. Ask the user to rest the pointer on the left side of a Finder window, then read
+   `~/Library/Logs/edge-sidebar.log`: a `show` line means the helper fired; no line means it did not see the hover
+   (use the trace file the README describes).
+6. A sidebar that opens when the pointer leaves is the documented blind-toggle limit, not a bug: tell the user to
+   toggle that sidebar once by hand.
+
+To remove everything: `./uninstall.sh`.
+
 ## Working with BetterTouchTool
 
 - Drive it with AppleScript, no UI: `tell application "BetterTouchTool" to` `get_triggers`, `get_trigger "<uuid>"`,
@@ -46,5 +65,5 @@ Behaviour the definitions do not make obvious:
 
 Constants (zone, dwell, keep distance) are at the top of `edge-sidebar/edge-sidebar.swift`; after editing run
 `edge-sidebar/install.sh` (rebuilds, restarts the LaunchAgent). The app list `~/.config/edge-sidebar.json` is read
-live; keep `edge-sidebar.example.json` identical to it. The helper toggles blindly (README, Known issues): do not
+live; `edge-sidebar.example.json` is the default shipped to new installs. The helper toggles blindly (README, Known issues): do not
 "fix" an inverted app by changing code.

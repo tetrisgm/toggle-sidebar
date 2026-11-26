@@ -30,14 +30,22 @@ It works on whichever window is under the pointer, also when that app is not in 
 
 ## Install
 
-Requires macOS, BetterTouchTool (with external scripting allowed in its settings) and the Xcode command line tools.
+Requires macOS, BetterTouchTool (running, with external scripting allowed in its settings) and the Xcode command
+line tools.
 
-1. `bettertouchtool/restore.sh` adds the triggers in `bettertouchtool/triggers.json` to BetterTouchTool.
-2. `edge-sidebar/install.sh` builds the helper into `~/bin`, installs it as a login job and copies the app list
-   to `~/.config/edge-sidebar.json`.
-3. For Safari: View → Tab Layout → Vertical.
+```sh
+git clone https://github.com/tetrisgm/toggle-sidebar && cd toggle-sidebar && ./install.sh
+```
 
-Both scripts are safe to re-run. The helper needs no macOS permission of its own.
+`install.sh` adds the named triggers to BetterTouchTool, builds the helper into `~/bin`, installs it as a login job,
+copies the app list to `~/.config/edge-sidebar.json` (kept if you already have one) and runs a self-check.
+For Safari, also set View → Tab Layout → Vertical.
+
+It only adds triggers with this repo's own UUIDs (they start `5A1C`); nothing else in your BetterTouchTool setup is
+changed. It is safe to re-run, the helper needs no macOS permission of its own, and `./uninstall.sh` removes it all.
+
+**Using an AI coding agent?** Point it at this repo and say "install toggle-sidebar". `AGENTS.md` tells it what to
+run, what to verify and what to ask you.
 
 ## How it works
 
@@ -87,7 +95,6 @@ Named triggers that ship in `triggers.json`:
 | `sidebar_ctrl_cmd_s` | Ctrl+Cmd+S | Mail, Music, TV, Preview, Reminders, Calendar |
 | `sidebar_cmd_b` | Cmd+B | Claude |
 | `sidebar_cmd_shift_s` | Cmd+Shift+S | Codex |
-| `sidebar_cmd_shift_l` | Cmd+Shift+L | unused (Safari's separate bookmarks sidebar) |
 
 An app with another shortcut needs one more named trigger in BetterTouchTool: trigger type "Named Trigger", one
 "Send Keyboard Shortcut" action.
@@ -98,13 +105,12 @@ An app with another shortcut needs one more named trigger in BetterTouchTool: tr
   by hand, that app runs inverted (hides on approach) until you toggle it once more by hand.
 - **Only the left side.** Right-hand inspectors and sidebars are not covered.
 - **Safari: do not switch Tab Layout automatically.** Hiding the sidebar and then switching Vertical → Compact left
-  an empty grey column in Safari 27.3 that only quitting Safari cleared. The unused `safari_tabs_show` /
-  `safari_tabs_hide` triggers are kept only as a record of that.
+  an empty grey column in Safari 27.3 that only quitting Safari cleared.
 
-## Also in `triggers.json`
+## Optional extras
 
-A few unrelated BetterTouchTool triggers from the same setup. Delete them from the file before restoring if you do
-not want them.
+`bettertouchtool/extras.json` holds a few unrelated BetterTouchTool triggers from the same setup. They are not
+installed by default: `bettertouchtool/restore.sh extras.json` adds them.
 
 | Input | Result |
 |---|---|
@@ -113,5 +119,5 @@ not want them.
 | 2-finger spread | Maximise / restore the window under the pointer (only fires while macOS "Zoom in or out" is on) |
 | Home / End | Send Cmd+Up / Cmd+Down |
 
-Triggers from this repo have UUIDs starting `5A1C`. `IF` actions carry an archived NSPredicate in
-`BTTIfConditionData`; `bettertouchtool/pred.swift` generates it from a format string.
+`IF` actions carry an archived NSPredicate in `BTTIfConditionData`; `bettertouchtool/pred.swift` generates it from a
+format string.
