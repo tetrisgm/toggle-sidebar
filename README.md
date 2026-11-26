@@ -6,6 +6,13 @@ No clicking, no shortcut to remember, and the content gets the full width the re
 It is a small background helper plus a set of [BetterTouchTool](https://folivora.ai) triggers. The helper watches
 the pointer and window positions; BetterTouchTool sends each app's own "toggle sidebar" command.
 
+| Pointer elsewhere | Pointer on the window's left side |
+|---|---|
+| ![Safari with the vertical tab column collapsed to icons](docs/safari-collapsed.png) | ![Safari with the tab column expanded](docs/safari-expanded.png) |
+| ![Claude with its sidebar hidden](docs/claude-collapsed.png) | ![Claude with its sidebar shown](docs/claude-expanded.png) |
+
+Safari above, the Claude desktop app below. Tab titles, session names and chat text are blurred.
+
 ## Apps it covers
 
 | App | When the pointer rests on the window's left side | When it moves away |
