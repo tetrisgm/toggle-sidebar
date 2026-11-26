@@ -2,30 +2,32 @@
 // the pointer leaves. It only watches the pointer and window frames (no special permission); the keyboard shortcut is
 // sent by BetterTouchTool through named triggers (btt://trigger_named). Config: ~/.config/edge-sidebar.json maps
 // bundle identifier -> named trigger (one toggle used for both directions), or -> {"show": trigger, "hide": trigger,
-// "activate": false (the trigger does not need the app in front), "collapseNew": true (run "hide" for windows that appear)}. Run by LaunchAgent com.shokunin.edge-sidebar.
+// "activate": false (the trigger does not need the app in front), "collapseNew": true (run "hide" for windows that appear),
+// "zone": px (hover area for this app instead of the default)}. Run by LaunchAgent com.shokunin.edge-sidebar.
 import Cocoa
 
 let zone: CGFloat = 28       // px inside the window's left edge that count as "there"
 let skipTop: CGFloat = 52    // title bar / traffic lights are left alone
 let keep: CGFloat = 340      // revealed sidebar stays while the pointer is within this many px of the left edge
-let dwell = 0.12, grace = 0.25
+let dwell = 0.06, grace = 0.3
 
 let configURL = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".config/edge-sidebar.json")
-struct Rule { let show: String; let hide: String; let activate: Bool; let collapseNew: Bool }
+struct Rule { let show: String; let hide: String; let activate: Bool; let collapseNew: Bool; let zone: CGFloat }
 var table: [String: Rule] = [:], tableDate = Date.distantPast
 func loadTable() {
   guard let d = (try? FileManager.default.attributesOfItem(atPath: configURL.path))?[.modificationDate] as? Date, d != tableDate,
         let data = try? Data(contentsOf: configURL), let j = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else { return }
   table = [:]; tableDate = d
   for (k, v) in j {
-    if let s = v as? String { table[k] = Rule(show: s, hide: s, activate: true, collapseNew: false) }
+    if let s = v as? String { table[k] = Rule(show: s, hide: s, activate: true, collapseNew: false, zone: zone) }
     else if let o = v as? [String: Any], let sh = o["show"] as? String, let hi = o["hide"] as? String {
-      table[k] = Rule(show: sh, hide: hi, activate: o["activate"] as? Bool ?? true, collapseNew: o["collapseNew"] as? Bool ?? false)
+      table[k] = Rule(show: sh, hide: hi, activate: o["activate"] as? Bool ?? true, collapseNew: o["collapseNew"] as? Bool ?? false, zone: CGFloat(o["zone"] as? Double ?? Double(zone)))
     }
   }
 }
 
 struct Hit { let id: Int; let pid: pid_t; let bundle: String; let rect: CGRect }
+let minSize = CGSize(width: 500, height: 300)   // smaller windows (popovers, previews, panels) are ignored
 func windowAt(_ p: CGPoint) -> Hit? {
   guard let list = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] else { return nil }
   for w in list {
@@ -48,7 +50,8 @@ func send(_ trigger: String, to pid: pid_t, activate: Bool = true) {
   guard let app = NSRunningApplication(processIdentifier: pid) else { return }
   let front = NSWorkspace.shared.frontmostApplication
   let fire = {
-    let t = Process(); t.executableURL = URL(fileURLWithPath: "/usr/bin/open"); t.arguments = ["-g", "btt://trigger_named/?trigger_name=" + trigger]; try? t.run()
+    let c = NSWorkspace.OpenConfiguration(); c.activates = false
+    NSWorkspace.shared.open(URL(string: "btt://trigger_named/?trigger_name=" + trigger)!, configuration: c, completionHandler: nil)
   }
   if !activate || front?.processIdentifier == pid { fire(); return }
   app.activate()
@@ -72,16 +75,16 @@ Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true) { _ in
   if CGEventSource.buttonState(.combinedSessionState, button: .left) { candidate = nil; return }   // not while dragging
   let hit = windowAt(p)
   if var r = revealed {
-    let same = hit?.id == r.hit.id
-    let rect = same ? hit!.rect : r.hit.rect
-    if same && p.x <= rect.minX + keep { r.outSince = nil; revealed = r; return }
+    if let h = hit, h.id == r.hit.id { r.hit = h }
+    let rect = r.hit.rect
+    if hit?.pid == r.hit.pid && rect.contains(p) && p.x <= rect.minX + keep { r.outSince = nil; revealed = r; return }
     if r.outSince == nil { r.outSince = Date(); revealed = r; return }
     if Date().timeIntervalSince(r.outSince!) >= grace { revealed = nil; send(r.rule.hide, to: r.hit.pid, activate: r.rule.activate) }
     return
   }
   loadTable()
-  guard let h = hit, let trigger = table[h.bundle], h.rect.width >= 500, h.rect.height >= 300, inVisibleArea(p),
-        p.x <= h.rect.minX + zone, p.y >= h.rect.minY + skipTop, p.y <= h.rect.maxY - 8 else { candidate = nil; return }
+  guard let h = hit, let trigger = table[h.bundle], h.rect.width >= minSize.width, h.rect.height >= minSize.height, inVisibleArea(p),
+        p.x <= h.rect.minX + trigger.zone, p.y >= h.rect.minY + skipTop, p.y <= h.rect.maxY - 8 else { candidate = nil; return }
   if candidate?.id != h.id { candidate = (h.id, Date()); return }
   if Date().timeIntervalSince(candidate!.since) >= dwell { candidate = nil; revealed = (h, trigger, nil); send(trigger.show, to: h.pid, activate: trigger.activate) }
 }
@@ -94,9 +97,10 @@ Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
   var now = Set<Int>(), fire: [pid_t: Rule] = [:]
   for w in list where (w[kCGWindowLayer as String] as? Int) == 0 {
     let id = w[kCGWindowNumber as String] as? Int ?? 0, pid = pid_t(w[kCGWindowOwnerPID as String] as? Int ?? 0)
+    guard let b = w[kCGWindowBounds as String] as? [String: CGFloat], (b["Width"] ?? 0) >= minSize.width, (b["Height"] ?? 0) >= minSize.height else { continue }
     now.insert(id)
     if !seen.contains(id), let b = NSRunningApplication(processIdentifier: pid)?.bundleIdentifier, let r = table[b], r.collapseNew,
-       revealed?.hit.id != id { fire[pid] = r }
+       revealed == nil { fire[pid] = r }
   }
   seen = now
   for (pid, r) in fire { DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { if revealed == nil { send(r.hide, to: pid, activate: r.activate) } } }

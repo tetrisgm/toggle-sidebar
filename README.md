@@ -26,7 +26,7 @@ when the pointer rests on the left side of its window. Private; holds no secrets
 
 BetterTouchTool only has screen-edge triggers, so a helper watches the pointer and window frames instead.
 
-- Shows the sidebar when the pointer rests for 0.12 s on the left 28 px inside a window (title bar and Dock excluded);
+- Shows the sidebar when the pointer rests for 0.06 s on the left 28 px inside a window (per-app `"zone"` overrides the width; Safari uses 56, its whole icon strip) (title bar and Dock excluded);
   hides it once the pointer is more than 340 px from the window's left side or leaves the window. These numbers are
   the constants at the top of `edge-sidebar.swift`.
 - It needs no macOS permission. The key press is sent by BetterTouchTool: the helper opens

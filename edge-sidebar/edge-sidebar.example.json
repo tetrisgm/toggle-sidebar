@@ -3,7 +3,8 @@
   "show": "safari_tabcol_expand",
   "hide": "safari_tabcol_collapse",
   "activate": false,
-  "collapseNew": true
+  "collapseNew": true,
+  "zone": 56
  },
  "com.apple.finder": "sidebar_opt_cmd_s",
  "com.apple.Notes": "sidebar_opt_cmd_s",
