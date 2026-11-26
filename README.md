@@ -1,19 +1,26 @@
 # toggle-sidebar
 
-Move the pointer to the left side of a Mac window and that app's sidebar appears. Move away and it hides again.
-No clicking, no shortcut to remember, and the content gets the full width the rest of the time.
+**Tired of sidebars hogging your screen all day? Fear no more.**
 
-It is a small background helper plus a set of [BetterTouchTool](https://folivora.ai) triggers. The helper watches
-the pointer and window positions; BetterTouchTool sends each app's own "toggle sidebar" command.
+Sidebars are great for the three seconds you actually need them. The rest of the time they just sit there, eating a
+fifth of your window and showing you a list you already know by heart.
+
+toggle-sidebar fixes that. Move your pointer to the left side of a window and the sidebar slides out. Move away and
+it's gone. No clicking, no shortcut to remember, no tiny button to hunt for. Your content gets the whole window, and
+the sidebar shows up only when you go looking for it.
+
+All it needs is [BetterTouchTool](https://folivora.ai) installed. One command and you're done.
 
 | Pointer elsewhere | Pointer on the window's left side |
 |---|---|
 | ![Safari with the vertical tab column collapsed to icons](docs/safari-collapsed.png) | ![Safari with the tab column expanded](docs/safari-expanded.png) |
 | ![Claude with its sidebar hidden](docs/claude-collapsed.png) | ![Claude with its sidebar shown](docs/claude-expanded.png) |
 
-Safari above, the Claude desktop app below. Tab titles, session names and chat text are blurred.
+Safari on top, the Claude desktop app below. (The blurry bits are my tabs and chats. Nothing to see there.)
 
 ## Apps it covers
+
+The ones I live in. Adding your own takes about a minute (see below).
 
 | App | When the pointer rests on the window's left side | When it moves away |
 |---|---|---|
@@ -28,17 +35,21 @@ Safari above, the Claude desktop app below. Tab titles, session names and chat t
 | **Claude** (desktop app) | The conversation sidebar appears | It hides |
 | **Codex** (desktop app) | The project / chat sidebar appears | It hides |
 
-Safari is handled differently from the rest. Safari has no command for collapsing its vertical tab column, so the
-column's width is set directly: it always ends up in the right state. Every other app gets its "toggle sidebar"
-keyboard shortcut, sent once on the way in and once on the way out (see Known limits).
+**Safari gets special treatment.** With vertical tabs you normally pick between a wide column that eats your page
+and a skinny strip of icons you can't read. Now you get both: icons while you browse, full tab titles the moment you
+reach for them. Safari has no command for this, so toggle-sidebar sets the column's width directly, which also means
+it always ends up in the right state.
+
+Every other app simply gets its own "toggle sidebar" keyboard shortcut, once on the way in and once on the way out
+(see Known limits).
 
 It works on whichever window is under the pointer, also when that app is not in front. Windows smaller than
 500 × 300, the title bar and the Dock are left alone.
 
 ## Install
 
-Requires macOS, BetterTouchTool (running, with external scripting allowed in its settings) and the Xcode command
-line tools.
+You need a Mac, BetterTouchTool (running, with external scripting allowed in its settings) and the Xcode command
+line tools. Then:
 
 ```sh
 git clone https://github.com/tetrisgm/toggle-sidebar && cd toggle-sidebar && ./install.sh
@@ -51,10 +62,13 @@ For Safari, also set View → Tab Layout → Vertical.
 It only adds triggers with this repo's own UUIDs (they start `5A1C`); nothing else in your BetterTouchTool setup is
 changed. It is safe to re-run, the helper needs no macOS permission of its own, and `./uninstall.sh` removes it all.
 
-**Using an AI coding agent?** Point it at this repo and say "install toggle-sidebar". `AGENTS.md` tells it what to
-run, what to verify and what to ask you.
+**Too lazy to even do that?** Same. Point your AI coding agent (Claude Code, Codex, whatever you use) at this repo
+and say "install toggle-sidebar". `AGENTS.md` tells it what to run, what to check and what to ask you. This whole
+thing was built that way in one evening.
 
 ## How it works
+
+For the curious. You don't need any of this to use it.
 
 - `edge-sidebar/edge-sidebar.swift` checks the pointer about 25 times a second. When it rests for 0.06 s in the
   left 28 px of a listed app's window (Safari: 56 px, its whole icon strip), it fires that app's "show" trigger.
@@ -107,6 +121,8 @@ An app with another shortcut needs one more named trigger in BetterTouchTool: tr
 "Send Keyboard Shortcut" action.
 
 ## Known limits
+
+It's a hover trick, not magic.
 
 - **Apps other than Safari are toggled blindly.** The helper cannot see whether a sidebar is open. If you open one
   by hand, that app runs inverted (hides on approach) until you toggle it once more by hand.
