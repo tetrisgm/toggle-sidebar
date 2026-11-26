@@ -61,7 +61,8 @@ Safari has no command or shortcut for collapsing the vertical tab column. The `s
 AppleScript inside BetterTouchTool (it has the Accessibility permission) that sets the value of `splitter 2 of
 splitter group 1` of the front Safari window: 40 collapses to the icon strip (Safari settles at about 52), the saved
 width (`~/.config/safari-tabcol-width`, default 210) expands. Sources: `bettertouchtool/scripts/`. They only do
-something while Tab Layout is Vertical.
+something while Tab Layout is Vertical. In `edge-sidebar.json` Safari also has `"collapseNew": true` (new windows, and
+the ones open when the helper starts, are collapsed) and `"activate": false` (the script does not need Safari in front).
 
 ## Known issues
 

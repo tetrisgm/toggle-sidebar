@@ -428,7 +428,7 @@
      "BTTAppleScriptUsePath": false,
      "BTTScriptLocation": 0,
      "BTTAppleScriptRunInBackground": false,
-     "BTTAppleScriptString": "-- Safari vertical tabs: the tab column is \"splitter 2\" of the window's split group; its value is the column width.\n-- Below ~53 px Safari shows the icon-only strip. The last expanded width is kept in ~/.config/safari-tabcol-width.\nset f to (POSIX path of (path to home folder)) & \".config/safari-tabcol-width\"\ntell application \"System Events\" to tell process \"Safari\"\n set s to splitter 2 of splitter group 1 of window 1\n set v to (value of s) as real\n if v > 80 then\n  do shell script \"printf %s \" & (round v) & \" > \" & quoted form of f\n  set value of s to 40\n end if\nend tell"
+     "BTTAppleScriptString": "-- Safari vertical tabs: collapse the tab column of every Safari window to the icon strip.\n-- The last expanded width (front window) is kept in ~/.config/safari-tabcol-width for the expand script.\nset f to (POSIX path of (path to home folder)) & \".config/safari-tabcol-width\"\ntell application \"System Events\" to tell process \"Safari\"\n repeat with w in windows\n  try\n   set s to splitter 2 of splitter group 1 of w\n   set v to (value of s) as real\n   if v > 80 then\n    do shell script \"printf %s \" & (round v) & \" > \" & quoted form of f\n    set value of s to 40\n   end if\n  end try\n end repeat\nend tell"
     },
     "BTTOrder": 0
    }
