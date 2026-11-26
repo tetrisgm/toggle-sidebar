@@ -70,6 +70,13 @@ func send(_ trigger: String, to pid: pid_t, activate: Bool = true) {
   }
 }
 
+// Events go to stderr (~/Library/Logs/edge-sidebar.log): what fired, and why a pointer near a left edge was ignored.
+var lastNote = ""
+func note(_ m: String) {
+  if m == lastNote { return }; lastNote = m
+  let f = DateFormatter(); f.dateFormat = "HH:mm:ss.SSS"
+  FileHandle.standardError.write((f.string(from: Date()) + " " + m + "\n").data(using: .utf8)!)
+}
 var last = CGPoint(x: -1, y: -1)
 var candidate: (id: Int, since: Date)? = nil
 var revealed: (hit: Hit, rule: Rule, outSince: Date?)? = nil
@@ -85,14 +92,17 @@ Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true) { _ in
     let rect = r.hit.rect
     if hit?.pid == r.hit.pid && rect.contains(p) && p.x <= rect.minX + keep { r.outSince = nil; revealed = r; return }
     if r.outSince == nil { r.outSince = Date(); revealed = r; return }
-    if Date().timeIntervalSince(r.outSince!) >= grace { revealed = nil; send(r.rule.hide, to: r.hit.pid, activate: r.rule.activate) }
+    if Date().timeIntervalSince(r.outSince!) >= grace { revealed = nil; note("hide \(r.hit.bundle) pointer x=\(Int(p.x)) over \(hit?.bundle ?? "nothing")"); send(r.rule.hide, to: r.hit.pid, activate: r.rule.activate) }
     return
   }
   loadTable()
-  guard let h = hit, let trigger = table[h.bundle], h.rect.width >= minSize.width, h.rect.height >= minSize.height, inVisibleArea(p),
-        p.x <= h.rect.minX + trigger.zone, p.y >= h.rect.minY + skipTop, p.y <= h.rect.maxY - 8 else { candidate = nil; return }
+  guard let h = hit, let trigger = table[h.bundle] else { candidate = nil; return }
+  guard p.x <= h.rect.minX + trigger.zone else { candidate = nil; return }
+  guard h.rect.width >= minSize.width, h.rect.height >= minSize.height, inVisibleArea(p),
+        p.y >= h.rect.minY + skipTop, p.y <= h.rect.maxY - 8 else {
+    note("ignored \(h.bundle): window \(Int(h.rect.width))x\(Int(h.rect.height)) pointer x=\(Int(p.x)) y=\(Int(p.y)) visible=\(inVisibleArea(p))"); candidate = nil; return }
   if candidate?.id != h.id { candidate = (h.id, Date()); return }
-  if Date().timeIntervalSince(candidate!.since) >= dwell { candidate = nil; revealed = (h, trigger, nil); send(trigger.show, to: h.pid, activate: trigger.activate) }
+  if Date().timeIntervalSince(candidate!.since) >= dwell { candidate = nil; revealed = (h, trigger, nil); note("show \(h.bundle) pointer x=\(Int(p.x)) y=\(Int(p.y))"); send(trigger.show, to: h.pid, activate: trigger.activate) }
 }
 // Apps with "collapseNew": windows that appear (and the ones present at start) get the hide trigger once.
 var seen = Set<Int>()
