@@ -36,11 +36,11 @@ Behaviour the definitions do not make obvious:
 - Agent shells have no Accessibility or Input Monitoring access: `System Events` cannot send keys or read menus, and
   event taps fail. Do not grant these or change other security settings; send keys through BTT instead.
 - You cannot perform trackpad gestures or press physical keys. After a change, check the stored trigger and BTT's log,
-  say plainly that the gesture itself is untested, and ask the owner to try it.
+  say plainly that the gesture itself is untested, and ask the user to try it.
 - A temporary probe (a trigger that shows a HUD, action 254) is the way to learn what a key or gesture really sends.
   Remove probes in the same session.
 - Trackpad gestures also set in System Settings → Trackpad fire together with BTT's. Ask before changing a macOS
-  setting; the owner turned the conflicting ones off himself.
+  setting; the README lists the ones to turn off.
 
 ## edge-sidebar
 

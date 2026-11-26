@@ -3,7 +3,7 @@
 // sent by BetterTouchTool through named triggers (btt://trigger_named). Config: ~/.config/edge-sidebar.json maps
 // bundle identifier -> named trigger (one toggle used for both directions), or -> {"show": trigger, "hide": trigger,
 // "activate": false (the trigger does not need the app in front), "collapseNew": true (run "hide" for windows that appear),
-// "zone": px (hover area for this app instead of the default)}. Run by LaunchAgent com.shokunin.edge-sidebar.
+// "zone": px (hover area for this app instead of the default)}. Run by LaunchAgent local.edge-sidebar (install.sh).
 import Cocoa
 
 let zone: CGFloat = 28       // px inside the window's left edge that count as "there"
