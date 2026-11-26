@@ -1,7 +1,7 @@
 // edge-sidebar: shows an app's sidebar while the pointer rests on the left side of its window and hides it again when
 // the pointer leaves. It only watches the pointer and window frames (no special permission); the keyboard shortcut is
 // sent by BetterTouchTool through named triggers (btt://trigger_named). Config: ~/.config/edge-sidebar.json maps
-// bundle identifier -> named trigger. Run by LaunchAgent com.shokunin.edge-sidebar.
+// bundle identifier -> named trigger (one toggle used for both directions), or -> {"show": trigger, "hide": trigger}. Run by LaunchAgent com.shokunin.edge-sidebar.
 import Cocoa
 
 let zone: CGFloat = 28       // px inside the window's left edge that count as "there"
@@ -10,11 +10,15 @@ let keep: CGFloat = 340      // revealed sidebar stays while the pointer is with
 let dwell = 0.12, grace = 0.25
 
 let configURL = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".config/edge-sidebar.json")
-var table: [String: String] = [:], tableDate = Date.distantPast
+var table: [String: (show: String, hide: String)] = [:], tableDate = Date.distantPast
 func loadTable() {
   guard let d = (try? FileManager.default.attributesOfItem(atPath: configURL.path))?[.modificationDate] as? Date, d != tableDate,
-        let data = try? Data(contentsOf: configURL), let j = try? JSONSerialization.jsonObject(with: data) as? [String: String] else { return }
-  table = j; tableDate = d
+        let data = try? Data(contentsOf: configURL), let j = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else { return }
+  table = [:]; tableDate = d
+  for (k, v) in j {
+    if let s = v as? String { table[k] = (s, s) }
+    else if let o = v as? [String: String], let sh = o["show"], let hi = o["hide"] { table[k] = (sh, hi) }
+  }
 }
 
 struct Hit { let id: Int; let pid: pid_t; let bundle: String; let rect: CGRect }
@@ -55,7 +59,7 @@ func send(_ trigger: String, to pid: pid_t) {
 
 var last = CGPoint(x: -1, y: -1)
 var candidate: (id: Int, since: Date)? = nil
-var revealed: (hit: Hit, trigger: String, outSince: Date?)? = nil
+var revealed: (hit: Hit, hide: String, outSince: Date?)? = nil
 loadTable()
 Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true) { _ in
   guard let p = CGEvent(source: nil)?.location else { return }
@@ -68,13 +72,13 @@ Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true) { _ in
     let rect = same ? hit!.rect : r.hit.rect
     if same && p.x <= rect.minX + keep { r.outSince = nil; revealed = r; return }
     if r.outSince == nil { r.outSince = Date(); revealed = r; return }
-    if Date().timeIntervalSince(r.outSince!) >= grace { revealed = nil; send(r.trigger, to: r.hit.pid) }
+    if Date().timeIntervalSince(r.outSince!) >= grace { revealed = nil; send(r.hide, to: r.hit.pid) }
     return
   }
   loadTable()
   guard let h = hit, let trigger = table[h.bundle], h.rect.width >= 500, h.rect.height >= 300, inVisibleArea(p),
         p.x <= h.rect.minX + zone, p.y >= h.rect.minY + skipTop, p.y <= h.rect.maxY - 8 else { candidate = nil; return }
   if candidate?.id != h.id { candidate = (h.id, Date()); return }
-  if Date().timeIntervalSince(candidate!.since) >= dwell { candidate = nil; revealed = (h, trigger, nil); send(trigger, to: h.pid) }
+  if Date().timeIntervalSince(candidate!.since) >= dwell { candidate = nil; revealed = (h, trigger.hide, nil); send(trigger.show, to: h.pid) }
 }
 RunLoop.main.run()

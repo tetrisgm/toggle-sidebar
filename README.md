@@ -37,10 +37,13 @@ BetterTouchTool only has screen-edge triggers, so a helper watches the pointer a
 ### Add an app
 
 Edit `~/.config/edge-sidebar.json` (read live, no restart): `"bundle.identifier": "named_trigger"`.
+Use `{"show": "trigger_a", "hide": "trigger_b"}` instead of one name when showing and hiding are different commands
+(Safari); such an app cannot get out of step.
 
 | Named trigger | Sends | Used by |
 |---|---|---|
-| `sidebar_cmd_shift_l` | Cmd+Shift+L | Safari |
+| `safari_tabs_show` / `safari_tabs_hide` | Menu items: Tab Layout → Vertical + Show Sidebar / Hide Sidebar + Tab Layout → Compact | Safari (tabs appear with the sidebar; no strip when it is hidden) |
+| `sidebar_cmd_shift_l` | Cmd+Shift+L | unused (plain Safari sidebar toggle) |
 | `sidebar_opt_cmd_s` | Opt+Cmd+S | Finder, Notes |
 | `sidebar_ctrl_cmd_s` | Ctrl+Cmd+S | Mail, Music, TV, Preview, Reminders, Calendar |
 | `sidebar_cmd_b` | Cmd+B | Claude |
