@@ -1,5 +1,7 @@
 # toggle-sidebar
 
+![Safari's vertical tab column expanding when the pointer reaches it, and collapsing when it leaves](docs/demo.gif)
+
 **Tired of sidebars hogging your screen all day? Fear no more.**
 
 Sidebars are great for the three seconds you actually need them. The rest of the time they just sit there, eating a
@@ -9,7 +11,31 @@ toggle-sidebar fixes that. Move your pointer to the left side of a window and th
 it's gone. No clicking, no shortcut to remember, no tiny button to hunt for. Your content gets the whole window, and
 the sidebar shows up only when you go looking for it.
 
-All it needs is [BetterTouchTool](https://folivora.ai) installed. One command and you're done.
+All it needs is [BetterTouchTool](https://folivora.ai) installed.
+
+## Get it
+
+**The easy way: hand it to your AI coding agent.** Paste this into Claude Code, Codex, or whichever agent you use
+on your Mac:
+
+```text
+Install toggle-sidebar on this Mac from https://github.com/tetrisgm/toggle-sidebar
+Clone it, read AGENTS.md, and follow "Installing it for a user".
+```
+
+That's it. The agent clones the repo, checks BetterTouchTool, runs the installer, and asks you to try a hover.
+
+**The manual way: three steps.**
+
+1. Install [BetterTouchTool](https://folivora.ai), open it, and in its settings allow external scripting.
+2. Paste this into Terminal:
+   ```sh
+   git clone https://github.com/tetrisgm/toggle-sidebar && cd toggle-sidebar && ./install.sh
+   ```
+3. Rest your pointer on the left side of a Finder window. The sidebar should pop out.
+
+For Safari, also choose View → Tab Layout → Vertical. More detail, and how to remove it again, is under
+[Install](#install).
 
 | Pointer elsewhere | Pointer on the window's left side |
 |---|---|
@@ -48,8 +74,8 @@ It works on whichever window is under the pointer, also when that app is not in 
 
 ## Install
 
-You need a Mac, BetterTouchTool (running, with external scripting allowed in its settings) and the Xcode command
-line tools. Then:
+The details behind [Get it](#get-it). You need a Mac, BetterTouchTool (running, with external scripting allowed in
+its settings) and the Xcode command line tools (`xcode-select --install` if `git` or `swiftc` is missing). Then:
 
 ```sh
 git clone https://github.com/tetrisgm/toggle-sidebar && cd toggle-sidebar && ./install.sh
@@ -62,9 +88,8 @@ For Safari, also set View → Tab Layout → Vertical.
 It only adds triggers with this repo's own UUIDs (they start `5A1C`); nothing else in your BetterTouchTool setup is
 changed. It is safe to re-run, the helper needs no macOS permission of its own, and `./uninstall.sh` removes it all.
 
-**Too lazy to even do that?** Same. Point your AI coding agent (Claude Code, Codex, whatever you use) at this repo
-and say "install toggle-sidebar". `AGENTS.md` tells it what to run, what to check and what to ask you. This whole
-thing was built that way in one evening.
+Agents: `AGENTS.md` has the install steps, the checks to run and what to ask the user. This whole thing was built
+by an agent in one evening, so it is written for one.
 
 ## How it works
 

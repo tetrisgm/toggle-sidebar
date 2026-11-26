@@ -6,6 +6,9 @@ app list and the README tables in step with what is live; commit and push after 
 
 ## Installing it for a user
 
+If you were only given the link: `git clone https://github.com/tetrisgm/toggle-sidebar ~/toggle-sidebar` (or a folder
+the user prefers), `cd` into it, then:
+
 1. Check first, change nothing yet: BetterTouchTool is installed and running, and
    `osascript -e 'tell application "BetterTouchTool" to get_triggers'` answers. If it does not, ask the user to turn on
    external scripting in BetterTouchTool's settings; do not change that or any other security setting yourself.
