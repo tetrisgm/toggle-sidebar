@@ -12,7 +12,7 @@ let keep: CGFloat = 340      // revealed sidebar stays while the pointer is with
 let dwell = 0.06, grace = 0.3
 
 let configURL = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".config/edge-sidebar.json")
-struct Rule { let show: String; let hide: String; let activate: Bool; let collapseNew: Bool; let zone: CGFloat }
+struct Rule { let show: String; let hide: String; let activate: Bool; let collapseNew: Bool; let zone: CGFloat; var scrub: Bool = false }
 var table: [String: Rule] = [:], tableDate = Date.distantPast
 func loadTable() {
   guard let d = (try? FileManager.default.attributesOfItem(atPath: configURL.path))?[.modificationDate] as? Date, d != tableDate,
@@ -21,7 +21,7 @@ func loadTable() {
   for (k, v) in j {
     if let s = v as? String { table[k] = Rule(show: s, hide: s, activate: true, collapseNew: false, zone: zone) }
     else if let o = v as? [String: Any], let sh = o["show"] as? String, let hi = o["hide"] as? String {
-      table[k] = Rule(show: sh, hide: hi, activate: o["activate"] as? Bool ?? true, collapseNew: o["collapseNew"] as? Bool ?? false, zone: CGFloat(o["zone"] as? Double ?? Double(zone)))
+      table[k] = Rule(show: sh, hide: hi, activate: o["activate"] as? Bool ?? true, collapseNew: o["collapseNew"] as? Bool ?? false, zone: CGFloat(o["zone"] as? Double ?? Double(zone)), scrub: o["scrubTabs"] as? Bool ?? false)
     }
   }
 }
@@ -78,6 +78,68 @@ func note(_ m: String) {
   FileHandle.standardError.write((f.string(from: Date()) + " " + m + "\n").data(using: .utf8)!)
 }
 let tracePath = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".config/edge-sidebar.trace").path
+// Safari tab scrubbing ("scrubTabs": true): while the tab column is revealed, the tab under the pointer is shown
+// as the pointer passes over it. Leaving without a click goes back to the tab that was showing before; a click keeps
+// the one clicked. Row positions come from BetterTouchTool's "safari_tab_geometry" trigger (Accessibility), the
+// switching itself is Safari's own AppleScript (needs the one-time "control Safari" approval).
+let geometryPath = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".config/safari-tab-geometry").path
+struct Scrub { var rows: [CGRect] = []; var rowsAt = Date.distantPast; var original: Int? = nil; var shown: Int? = nil; var clicks: UInt32 = 0 }
+var scrub: Scrub? = nil
+let safariQueue = DispatchQueue(label: "safari")
+var pendingTab: Int? = nil
+func runSafari(_ source: String) -> NSAppleEventDescriptor? {
+  var err: NSDictionary?; let r = NSAppleScript(source: source)?.executeAndReturnError(&err)
+  if let err { note("safari script: \(err[NSAppleScript.errorMessage] ?? err)") }
+  return r
+}
+func showTab(_ index: Int) {          // coalesced: only the newest request runs
+  let first = pendingTab == nil; pendingTab = index
+  guard first else { return }
+  safariQueue.async {
+    while true {
+      var i: Int? = nil; DispatchQueue.main.sync { i = pendingTab }
+      guard let idx = i else { return }
+      _ = runSafari("tell application \"Safari\" to set current tab of front window to tab \(idx) of front window")
+      var done = false; DispatchQueue.main.sync { if pendingTab == idx { pendingTab = nil; done = true } }
+      if done { return }
+    }
+  }
+}
+func loadRows() {
+  guard let text = try? String(contentsOfFile: geometryPath, encoding: .utf8) else { return }
+  scrub?.rows = text.split(separator: "\n").compactMap { l in
+    let v = l.split(separator: " ").compactMap { Double($0) }; return v.count == 4 ? CGRect(x: v[0], y: v[1], width: v[2], height: v[3]) : nil }
+}
+func refreshRows() {
+  scrub?.rowsAt = Date()
+  let c = NSWorkspace.OpenConfiguration(); c.activates = false
+  NSWorkspace.shared.open(URL(string: "btt://trigger_named/?trigger_name=safari_tab_geometry")!, configuration: c) { _, _ in
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { loadRows() } }
+}
+func startScrub() {
+  scrub = Scrub(clicks: CGEventSource.counterForEventType(.combinedSessionState, eventType: .leftMouseDown))
+  try? FileManager.default.removeItem(atPath: geometryPath)
+  DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { refreshRows() }      // after the column has expanded
+  safariQueue.async {
+    let r = runSafari("tell application \"Safari\" to get index of current tab of front window")
+    DispatchQueue.main.async { scrub?.original = r.map { Int($0.int32Value) } }
+  }
+}
+func scrubTick(_ p: CGPoint) {
+  guard var s = scrub else { return }
+  if Date().timeIntervalSince(s.rowsAt) > 1.5 { refreshRows() }                   // the column may have scrolled
+  let hits = s.rows.enumerated().filter { $0.element.contains(p) }
+  guard hits.count == 1 else { return }                                           // off the rows, or ambiguous
+  let idx = hits[0].offset + 1
+  if s.shown != idx { s.shown = idx; scrub = s; showTab(idx) }
+}
+func endScrub() {
+  guard let s = scrub else { return }
+  scrub = nil
+  let clicked = CGEventSource.counterForEventType(.combinedSessionState, eventType: .leftMouseDown) != s.clicks
+  if !clicked, s.shown != nil, let o = s.original, o != s.shown { showTab(o); note("scrub: back to tab \(o)") }
+  else if s.shown != nil { note("scrub: kept tab \(s.shown!)") }
+}
 var last = CGPoint(x: -1, y: -1)
 var candidate: (id: Int, since: Date)? = nil
 var revealed: (hit: Hit, rule: Rule, outSince: Date?)? = nil
@@ -85,7 +147,7 @@ loadTable()
 Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true) { _ in
   guard let p = CGEvent(source: nil)?.location else { return }
   let moved = p != last; last = p
-  if !moved && candidate == nil && revealed?.outSince == nil { return }
+  if !moved && candidate == nil && revealed?.outSince == nil && scrub == nil { return }
   if CGEventSource.buttonState(.combinedSessionState, button: .left) { candidate = nil; return }   // not while dragging
   let hit = windowAt(p)
   // Trace mode: while ~/.config/edge-sidebar.trace exists, log what is under the pointer whenever it is near a left edge.
@@ -95,9 +157,9 @@ Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true) { _ in
   if var r = revealed {
     if let h = hit, h.id == r.hit.id { r.hit = h }
     let rect = r.hit.rect
-    if hit?.pid == r.hit.pid && rect.contains(p) && p.x <= rect.minX + keep { r.outSince = nil; revealed = r; return }
+    if hit?.pid == r.hit.pid && rect.contains(p) && p.x <= rect.minX + keep { r.outSince = nil; revealed = r; if r.rule.scrub { scrubTick(p) }; return }
     if r.outSince == nil { r.outSince = Date(); revealed = r; return }
-    if Date().timeIntervalSince(r.outSince!) >= grace { revealed = nil; note("hide \(r.hit.bundle) pointer x=\(Int(p.x)) over \(hit?.bundle ?? "nothing")"); send(r.rule.hide, to: r.hit.pid, activate: r.rule.activate) }
+    if Date().timeIntervalSince(r.outSince!) >= grace { revealed = nil; if r.rule.scrub { endScrub() }; note("hide \(r.hit.bundle) pointer x=\(Int(p.x)) over \(hit?.bundle ?? "nothing")"); send(r.rule.hide, to: r.hit.pid, activate: r.rule.activate) }
     return
   }
   loadTable()
@@ -107,7 +169,7 @@ Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true) { _ in
         p.y >= h.rect.minY + skipTop, p.y <= h.rect.maxY - 8 else {
     note("ignored \(h.bundle): window \(Int(h.rect.width))x\(Int(h.rect.height)) pointer x=\(Int(p.x)) y=\(Int(p.y)) visible=\(inVisibleArea(p))"); candidate = nil; return }
   if candidate?.id != h.id { candidate = (h.id, Date()); return }
-  if Date().timeIntervalSince(candidate!.since) >= dwell { candidate = nil; revealed = (h, trigger, nil); note("show \(h.bundle) pointer x=\(Int(p.x)) y=\(Int(p.y))"); send(trigger.show, to: h.pid, activate: trigger.activate) }
+  if Date().timeIntervalSince(candidate!.since) >= dwell { candidate = nil; revealed = (h, trigger, nil); if trigger.scrub { startScrub() }; note("show \(h.bundle) pointer x=\(Int(p.x)) y=\(Int(p.y))"); send(trigger.show, to: h.pid, activate: trigger.activate) }
 }
 // Apps with "collapseNew": windows that appear (and the ones present at start) get the hide trigger once.
 var seen = Set<Int>()

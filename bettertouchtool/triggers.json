@@ -163,5 +163,32 @@
    }
   ],
   "BTTGestureNotes": "Safari: toggle vertical tab column"
+ },
+ {
+  "BTTTriggerType": 643,
+  "BTTTriggerTypeDescriptionReadOnly": "Named Trigger: safari_tab_geometry",
+  "BTTTriggerTypeDescription": "Safari: write tab row geometry (for tab scrubbing)",
+  "BTTTriggerClass": "BTTTriggerTypeOtherTriggers",
+  "BTTUUID": "5A1C00BA-3F5W-4E00-A000-SIDEBARNAMED",
+  "BTTTriggerName": "safari_tab_geometry",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C00BA-3F5W-4E00-A000-SIDEBARNAMED",
+    "BTTIsPureAction": true,
+    "BTTUUID": "13743D5C-D217-44E2-9584-3660AEA56A33",
+    "BTTPredefinedActionType": 172,
+    "BTTPredefinedActionName": "Run Apple Script (blocking)",
+    "BTTAdditionalActionData": {
+     "BTTScriptType": 0,
+     "BTTAppleScriptUsePath": false,
+     "BTTScriptLocation": 0,
+     "BTTAppleScriptRunInBackground": false,
+     "BTTAppleScriptString": "-- Writes the position of every tab row in Safari's vertical tab column (front browser window) for edge-sidebar's\n-- tab scrubbing, to ~/.config/safari-tab-geometry. One line per tab, in Safari's tab order: \"x y width height\"\n-- in screen points (origin top left).\nset f to (POSIX path of (path to home folder)) & \".config/safari-tab-geometry\"\nset o to \"\"\ntell application \"System Events\" to tell process \"Safari\"\n repeat with win in windows\n  try\n   set g to UI element 2 of splitter group 1 of win\n   set ps to position of every UI element of g\n   set ss to size of every UI element of g\n   repeat with i from 1 to count of ps\n    set p to item i of ps\n    set s to item i of ss\n    set o to o & ((item 1 of p) as integer) & \" \" & ((item 2 of p) as integer) & \" \" & ((item 1 of s) as integer) & \" \" & ((item 2 of s) as integer) & linefeed\n   end repeat\n   exit repeat\n  end try\n end repeat\nend tell\ndo shell script \"printf %s \" & quoted form of o & \" > \" & quoted form of f"
+    },
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Safari: write tab row geometry (for tab scrubbing)"
  }
 ]

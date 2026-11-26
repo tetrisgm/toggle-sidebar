@@ -50,7 +50,7 @@ The ones I live in. Adding your own takes about a minute (see below).
 
 | App | When the pointer rests on the window's left side | When it moves away |
 |---|---|---|
-| **Safari** (vertical tabs) | The tab column expands to show tab titles | It collapses to the icon-only strip. New windows start collapsed |
+| **Safari** (vertical tabs) | The tab column expands to show tab titles, and each tab shows as you sweep over it | It collapses to the icon-only strip. New windows start collapsed |
 | **Finder** | The sidebar (Favourites, Locations, Tags) appears | It hides |
 | **Notes** | The folder list appears | It hides |
 | **Mail** | The mailbox list appears | It hides |
@@ -114,6 +114,11 @@ to 40 collapses it to the icon strip (Safari settles at about 52); setting it to
 The AppleScripts are in `bettertouchtool/scripts/` and run inside BetterTouchTool, which has the Accessibility
 permission. They search all of Safari's windows, because a tab preview can be the frontmost one.
 `safari_tabcol_toggle` does the same as a single toggle, free to bind to a key or gesture.
+
+**Tab scrubbing** (`"scrubTabs": true`): while the column is open, sweep the pointer down the tabs and each one shows
+as you pass over it. Move away without clicking and you're back on the tab you started from; click one to stay there.
+Row positions come from the `safari_tab_geometry` trigger; the switching uses Safari's own AppleScript, so macOS asks
+once whether `edge-sidebar` may control Safari. Sleeping tabs reload when you pass them.
 
 ## Add or change an app
 

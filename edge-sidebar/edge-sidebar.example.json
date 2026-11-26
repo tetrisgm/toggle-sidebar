@@ -4,7 +4,8 @@
   "hide": "safari_tabcol_collapse",
   "activate": false,
   "collapseNew": true,
-  "zone": 56
+  "zone": 56,
+  "scrubTabs": true
  },
  "com.apple.finder": "sidebar_opt_cmd_s",
  "com.apple.Notes": "sidebar_opt_cmd_s",
