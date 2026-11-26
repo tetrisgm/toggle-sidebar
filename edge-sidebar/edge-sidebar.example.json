@@ -1,0 +1,13 @@
+{
+ "com.apple.Safari": "sidebar_cmd_shift_l",
+ "com.apple.finder": "sidebar_opt_cmd_s",
+ "com.apple.Notes": "sidebar_opt_cmd_s",
+ "com.apple.mail": "sidebar_ctrl_cmd_s",
+ "com.apple.Music": "sidebar_ctrl_cmd_s",
+ "com.apple.TV": "sidebar_ctrl_cmd_s",
+ "com.apple.Preview": "sidebar_ctrl_cmd_s",
+ "com.apple.reminders": "sidebar_ctrl_cmd_s",
+ "com.apple.iCal": "sidebar_ctrl_cmd_s",
+ "com.anthropic.claudefordesktop": "sidebar_cmd_b",
+ "com.openai.codex": "sidebar_cmd_shift_s"
+}

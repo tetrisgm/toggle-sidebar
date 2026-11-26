@@ -1,0 +1,306 @@
+[
+ {
+  "BTTTriggerType": 100,
+  "BTTTriggerTypeDescriptionReadOnly": "3 Finger Swipe Left",
+  "BTTTriggerTypeDescription": "Snap window under cursor to left half",
+  "BTTTriggerClass": "BTTTriggerTypeTouchpadAll",
+  "BTTUUID": "5A1C0001-3F5W-4E00-A000-SNAPLEFT0001",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C0001-3F5W-4E00-A000-SNAPLEFT0001",
+    "BTTIsPureAction": true,
+    "BTTUUID": "5D003150-F52D-4B0D-BBFE-CDA3FE6590DD",
+    "BTTPredefinedActionType": 204,
+    "BTTPredefinedActionName": "Activate or Bring to Front Window Under Cursor",
+    "BTTOrder": 0
+   },
+   {
+    "BTTTriggerParentUUID": "5A1C0001-3F5W-4E00-A000-SNAPLEFT0001",
+    "BTTIsPureAction": true,
+    "BTTUUID": "4720AD43-B589-49E3-B49A-18AA8A442257",
+    "BTTPredefinedActionType": 19,
+    "BTTPredefinedActionName": "Maximize Window Left Half",
+    "BTTOrder": 1
+   }
+  ],
+  "BTTGestureNotes": "Snap window under cursor to left half"
+ },
+ {
+  "BTTTriggerType": 101,
+  "BTTTriggerTypeDescriptionReadOnly": "3 Finger Swipe Right",
+  "BTTTriggerTypeDescription": "Snap window under cursor to right half",
+  "BTTTriggerClass": "BTTTriggerTypeTouchpadAll",
+  "BTTUUID": "5A1C0002-3F5W-4E00-A000-SNAPRIGHT001",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C0002-3F5W-4E00-A000-SNAPRIGHT001",
+    "BTTIsPureAction": true,
+    "BTTUUID": "8F7C8033-2FAC-4AA1-BA4D-CB015EA92DE9",
+    "BTTPredefinedActionType": 204,
+    "BTTPredefinedActionName": "Activate or Bring to Front Window Under Cursor",
+    "BTTOrder": 0
+   },
+   {
+    "BTTTriggerParentUUID": "5A1C0002-3F5W-4E00-A000-SNAPRIGHT001",
+    "BTTIsPureAction": true,
+    "BTTUUID": "D2E9A91D-5E65-41BC-AB17-9368CB76F41B",
+    "BTTPredefinedActionType": 20,
+    "BTTPredefinedActionName": "Maximize Window Right Half",
+    "BTTOrder": 1
+   }
+  ],
+  "BTTGestureNotes": "Snap window under cursor to right half"
+ },
+ {
+  "BTTTriggerType": 103,
+  "BTTTriggerTypeDescriptionReadOnly": "3 Finger Swipe Down",
+  "BTTTriggerTypeDescription": "Show desktop",
+  "BTTTriggerClass": "BTTTriggerTypeTouchpadAll",
+  "BTTUUID": "5A1C0003-3F5W-4E00-A000-SHOWDESKTOP1",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C0003-3F5W-4E00-A000-SHOWDESKTOP1",
+    "BTTIsPureAction": true,
+    "BTTUUID": "F534B37E-7404-4E55-8384-74CBA257115E",
+    "BTTPredefinedActionType": 45,
+    "BTTPredefinedActionName": "Show Desktop",
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Show desktop"
+ },
+ {
+  "BTTTriggerType": 102,
+  "BTTTriggerTypeDescriptionReadOnly": "3 Finger Swipe Up",
+  "BTTTriggerTypeDescription": "Mission Control",
+  "BTTTriggerClass": "BTTTriggerTypeTouchpadAll",
+  "BTTUUID": "5A1C0004-3F5W-4E00-A000-MISSIONCTRL1",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C0004-3F5W-4E00-A000-MISSIONCTRL1",
+    "BTTIsPureAction": true,
+    "BTTUUID": "3380BC57-153A-4D8B-97F5-51EB63E66CCF",
+    "BTTPredefinedActionType": 5,
+    "BTTPredefinedActionName": "Mission Control",
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Mission Control"
+ },
+ {
+  "BTTTriggerType": 116,
+  "BTTTriggerTypeDescriptionReadOnly": "Pinch Out",
+  "BTTTriggerTypeDescription": "Maximize / restore window under cursor",
+  "BTTTriggerClass": "BTTTriggerTypeTouchpadAll",
+  "BTTUUID": "5A1C0005-3F5W-4E00-A000-MAXTOGGLE001",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C0005-3F5W-4E00-A000-MAXTOGGLE001",
+    "BTTIsPureAction": true,
+    "BTTUUID": "56ABFB5A-C556-4F84-AF99-31D9261D192D",
+    "BTTPredefinedActionType": 204,
+    "BTTPredefinedActionName": "Activate or Bring to Front Window Under Cursor",
+    "BTTOrder": 0
+   },
+   {
+    "BTTTriggerParentUUID": "5A1C0005-3F5W-4E00-A000-MAXTOGGLE001",
+    "BTTIsPureAction": true,
+    "BTTUUID": "349A4B6F-D1E5-4AA0-8118-787C89FA9D75",
+    "BTTPredefinedActionType": 330,
+    "BTTPredefinedActionName": "If Condition",
+    "BTTIfConditionFormat": "focused_window_width >= focused_screen_visible_frame_width - 8 AND focused_window_height >= focused_screen_visible_frame_height - 8",
+    "BTTIfConditionData": "YnBsaXN0MDDUAQIDBAUGBwpYJHZlcnNpb25ZJGFyY2hpdmVyVCR0b3BYJG9iamVjdHMSAAGGoF8QD05TS2V5ZWRBcmNoaXZlctEICVRyb290gAGvEC8LDBMZISssLjU5Pj9CRkpQUVZXWl9kaGtscHFzdXuAhImOkpWWm56fpKmtsLG0tlUkbnVsbNMNDg8QERJfEBdOU0NvbXBvdW5kUHJlZGljYXRlVHlwZV8QD05TU3VicHJlZGljYXRlc1YkY2xhc3MQAYACgC7SFA8VGFpOUy5vYmplY3RzohYXgAOAH4Aa1A8aGxwdHh8gXxARTlNSaWdodEV4cHJlc3Npb25fEBBOU0xlZnRFeHByZXNzaW9uXxATTlNQcmVkaWNhdGVPcGVyYXRvcoAegA6ABIAc1SIjJCUPJicoKSpZTlNPcGVyYW5kXk5TU2VsZWN0b3JOYW1lXxAQTlNFeHByZXNzaW9uVHlwZVtOU0FyZ3VtZW50c4AGgAUQA4AIgA1cdmFsdWVGb3JLZXk60iQPEC2AB9IvMDEyWiRjbGFzc25hbWVYJGNsYXNzZXNfEBBOU1NlbGZFeHByZXNzaW9uozEzNFxOU0V4cHJlc3Npb25YTlNPYmplY3TSFA82OKE3gAmADNMPJDo7PD1ZTlNLZXlQYXRogAsQCoAKXxAUZm9jdXNlZF93aW5kb3dfd2lkdGjSLzBAQV8QHE5TS2V5UGF0aFNwZWNpZmllckV4cHJlc3Npb26jQDM00i8wQ0ReTlNNdXRhYmxlQXJyYXmjQ0U0V05TQXJyYXnSLzBHSF8QE05TS2V5UGF0aEV4cHJlc3Npb26kR0kzNF8QFE5TRnVuY3Rpb25FeHByZXNzaW9u1SIjJCUPS0xNTk+AEIAPEASAE4AbXmZyb206c3VidHJhY3Q60w8kUlNUVV8QGE5TQ29uc3RhbnRWYWx1ZUNsYXNzTmFtZYASEACAEV8QFV9OU1ByZWRpY2F0ZVV0aWxpdGllc9IvMFhZXxAZTlNDb25zdGFudFZhbHVlRXhwcmVzc2lvbqNYMzTSFA9bGKJcXYAUgBiAGtUiIyQlDyYnKGIqgAaABYAVgA3SFA9lOKFmgBaADNMPJDo7PGqAC4AXXxAiZm9jdXNlZF9zY3JlZW5fdmlzaWJsZV9mcmFtZV93aWR0aNNtJA9uVFNfEA9OU0NvbnN0YW50VmFsdWWAGYASEAjSLzBFcqJFNNIvMEl0o0kzNNUPdnd4eXpUKFQoWk5TTW9kaWZpZXJZTlNWYXJpYW50WU5TT3B0aW9uc15OU09wZXJhdG9yVHlwZYAd0i8wfH1fEB1OU0NvbXBhcmlzb25QcmVkaWNhdGVPcGVyYXRvcqN+fzRfEB1OU0NvbXBhcmlzb25QcmVkaWNhdGVPcGVyYXRvcl8QE05TUHJlZGljYXRlT3BlcmF0b3LSLzCBgl8QFU5TQ29tcGFyaXNvblByZWRpY2F0ZaOBgzRbTlNQcmVkaWNhdGXUDxobHB2Gh4iAHoAkgCCALdUiIyQlDyYnKIwqgAaABYAhgA3SFA+POKGQgCKADNMPJDo7PJSAC4AjXxAVZm9jdXNlZF93aW5kb3dfaGVpZ2h01SIjJCUPl0xNmU+AJYAPgCeAG9MPJFJTVJ2AEoAmXxAVX05TUHJlZGljYXRlVXRpbGl0aWVz0hQPoBiioaKAKIAsgBrVIiMkJQ8mJyinKoAGgAWAKYAN0hQPqjihq4AqgAzTDyQ6OzyvgAuAK18QI2ZvY3VzZWRfc2NyZWVuX3Zpc2libGVfZnJhbWVfaGVpZ2h0020kD25UU4AZgBLVD3Z3eHl6VChUKIAd0i8wt7hfEBNOU0NvbXBvdW5kUHJlZGljYXRlo7eDNAAIABEAGgAkACkAMgA3AEkATABRAFMAhQCLAJIArAC+AMUAxwDJAMsA0ADbAN4A4ADiAOQA7QEBARQBKgEsAS4BMAEyAT0BRwFWAWkBdQF3AXkBewF9AX8BjAGRAZMBmAGjAawBvwHDAdAB2QHeAeAB4gHkAesB9QH3AfkB+wISAhcCNgI6Aj8CTgJSAloCXwJ1AnoCkQKcAp4CoAKiAqQCpgK1ArwC1wLZAtsC3QL1AvoDFgMaAx8DIgMkAyYDKAMzAzUDNwM5AzsDQANCA0QDRgNNA08DUQN2A30DjwORA5MDlQOaA50DogOmA7EDvAPGA9AD3wPhA+YEBgQKBCoEQARFBF0EYQRtBHYEeAR6BHwEfgSJBIsEjQSPBJEElgSYBJoEnASjBKUEpwS_BMoEzATOBNAE0gTZBNsE3QT1BPoE_QT_BQEFAwUOBRAFEgUUBRYFGwUdBR8FIQUoBSoFLAVSBVkFWwVdBWgFagVvBYUAAAAAAAACAQAAAAAAAAC5AAAAAAAAAAAAAAAAAAAFiQ==",
+    "BTTOrder": 1
+   },
+   {
+    "BTTTriggerParentUUID": "5A1C0005-3F5W-4E00-A000-MAXTOGGLE001",
+    "BTTIsPureAction": true,
+    "BTTUUID": "FC69D04B-7A6D-409C-B36D-97839E94D80B",
+    "BTTPredefinedActionType": 84,
+    "BTTPredefinedActionName": "Restore Old Window Size",
+    "BTTOrder": 2
+   },
+   {
+    "BTTTriggerParentUUID": "5A1C0005-3F5W-4E00-A000-MAXTOGGLE001",
+    "BTTIsPureAction": true,
+    "BTTUUID": "C06D97D3-CE09-4E63-8369-5BF7AB3A9662",
+    "BTTPredefinedActionType": 333,
+    "BTTPredefinedActionName": "Else",
+    "BTTOrder": 3
+   },
+   {
+    "BTTTriggerParentUUID": "5A1C0005-3F5W-4E00-A000-MAXTOGGLE001",
+    "BTTIsPureAction": true,
+    "BTTUUID": "4B00F118-F7DC-45AC-9BAC-C44C7F7EFA4F",
+    "BTTPredefinedActionType": 21,
+    "BTTPredefinedActionName": "Maximize Window",
+    "BTTOrder": 4
+   },
+   {
+    "BTTTriggerParentUUID": "5A1C0005-3F5W-4E00-A000-MAXTOGGLE001",
+    "BTTIsPureAction": true,
+    "BTTUUID": "513E5753-276D-45CE-9712-B32C403B5EAB",
+    "BTTPredefinedActionType": 334,
+    "BTTPredefinedActionName": "END If Condition",
+    "BTTOrder": 5
+   }
+  ],
+  "BTTGestureNotes": "Maximize / restore window under cursor"
+ },
+ {
+  "BTTTriggerType": 0,
+  "BTTTriggerClass": "BTTTriggerTypeKeyboardShortcut",
+  "BTTUUID": "5A1C0007-3F5W-4E00-A000-HOMETOTOP001",
+  "BTTShortcutKeyboardType": 0,
+  "BTTTriggerOnDown": 1,
+  "BTTShortcutKeyCode": 115,
+  "BTTShortcutModifierKeys": 8388608,
+  "BTTOrder": 0,
+  "BTTAutoAdaptToKeyboardLayout": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C0007-3F5W-4E00-A000-HOMETOTOP001",
+    "BTTIsPureAction": true,
+    "BTTUUID": "0DF6978E-4D27-48EA-91D9-12F4AD9857A7",
+    "BTTPredefinedActionType": 264,
+    "BTTPredefinedActionName": "",
+    "BTTShortcutToSend": "55,126",
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Home: scroll to top"
+ },
+ {
+  "BTTTriggerType": 0,
+  "BTTTriggerClass": "BTTTriggerTypeKeyboardShortcut",
+  "BTTUUID": "5A1C0008-3F5W-4E00-A000-ENDTOBOTTOM1",
+  "BTTShortcutKeyboardType": 0,
+  "BTTTriggerOnDown": 1,
+  "BTTShortcutKeyCode": 119,
+  "BTTShortcutModifierKeys": 8388608,
+  "BTTOrder": 0,
+  "BTTAutoAdaptToKeyboardLayout": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C0008-3F5W-4E00-A000-ENDTOBOTTOM1",
+    "BTTIsPureAction": true,
+    "BTTUUID": "E00F4692-7A8B-4556-8820-B58AED5D9F30",
+    "BTTPredefinedActionType": 264,
+    "BTTPredefinedActionName": "",
+    "BTTShortcutToSend": "55,125",
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "End: scroll to bottom"
+ },
+ {
+  "BTTTriggerType": 643,
+  "BTTTriggerTypeDescriptionReadOnly": "Named Trigger: sidebar_cmd_shift_l",
+  "BTTTriggerTypeDescription": "Toggle sidebar (sidebar_cmd_shift_l)",
+  "BTTTriggerClass": "BTTTriggerTypeOtherTriggers",
+  "BTTUUID": "5A1C00B0-3F5W-4E00-A000-SIDEBARNAMED",
+  "BTTTriggerName": "sidebar_cmd_shift_l",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C00B0-3F5W-4E00-A000-SIDEBARNAMED",
+    "BTTIsPureAction": true,
+    "BTTUUID": "D8E33560-5258-4BA2-B93D-5E819FD33F72",
+    "BTTPredefinedActionType": 264,
+    "BTTPredefinedActionName": "",
+    "BTTShortcutToSend": "56,55,37",
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Toggle sidebar (sidebar_cmd_shift_l)"
+ },
+ {
+  "BTTTriggerType": 643,
+  "BTTTriggerTypeDescriptionReadOnly": "Named Trigger: sidebar_opt_cmd_s",
+  "BTTTriggerTypeDescription": "Toggle sidebar (sidebar_opt_cmd_s)",
+  "BTTTriggerClass": "BTTTriggerTypeOtherTriggers",
+  "BTTUUID": "5A1C00B1-3F5W-4E00-A000-SIDEBARNAMED",
+  "BTTTriggerName": "sidebar_opt_cmd_s",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C00B1-3F5W-4E00-A000-SIDEBARNAMED",
+    "BTTIsPureAction": true,
+    "BTTUUID": "8AEF1FD8-0CAD-408C-BB80-95CE37EF6BE2",
+    "BTTPredefinedActionType": 264,
+    "BTTPredefinedActionName": "",
+    "BTTShortcutToSend": "58,55,1",
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Toggle sidebar (sidebar_opt_cmd_s)"
+ },
+ {
+  "BTTTriggerType": 643,
+  "BTTTriggerTypeDescriptionReadOnly": "Named Trigger: sidebar_ctrl_cmd_s",
+  "BTTTriggerTypeDescription": "Toggle sidebar (sidebar_ctrl_cmd_s)",
+  "BTTTriggerClass": "BTTTriggerTypeOtherTriggers",
+  "BTTUUID": "5A1C00B2-3F5W-4E00-A000-SIDEBARNAMED",
+  "BTTTriggerName": "sidebar_ctrl_cmd_s",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C00B2-3F5W-4E00-A000-SIDEBARNAMED",
+    "BTTIsPureAction": true,
+    "BTTUUID": "4F966D6C-A48A-44F0-A6A0-43E84EC2338E",
+    "BTTPredefinedActionType": 264,
+    "BTTPredefinedActionName": "",
+    "BTTShortcutToSend": "59,55,1",
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Toggle sidebar (sidebar_ctrl_cmd_s)"
+ },
+ {
+  "BTTTriggerType": 643,
+  "BTTTriggerTypeDescriptionReadOnly": "Named Trigger: sidebar_cmd_b",
+  "BTTTriggerTypeDescription": "Toggle sidebar (sidebar_cmd_b)",
+  "BTTTriggerClass": "BTTTriggerTypeOtherTriggers",
+  "BTTUUID": "5A1C00B3-3F5W-4E00-A000-SIDEBARNAMED",
+  "BTTTriggerName": "sidebar_cmd_b",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C00B3-3F5W-4E00-A000-SIDEBARNAMED",
+    "BTTIsPureAction": true,
+    "BTTUUID": "FA9BD1DC-695F-4946-B9DA-47CA9CCE27A2",
+    "BTTPredefinedActionType": 264,
+    "BTTPredefinedActionName": "",
+    "BTTShortcutToSend": "55,11",
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Toggle sidebar (sidebar_cmd_b)"
+ },
+ {
+  "BTTTriggerType": 643,
+  "BTTTriggerTypeDescriptionReadOnly": "Named Trigger: sidebar_cmd_shift_s",
+  "BTTTriggerTypeDescription": "Toggle sidebar (sidebar_cmd_shift_s)",
+  "BTTTriggerClass": "BTTTriggerTypeOtherTriggers",
+  "BTTUUID": "5A1C00B4-3F5W-4E00-A000-SIDEBARNAMED",
+  "BTTTriggerName": "sidebar_cmd_shift_s",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C00B4-3F5W-4E00-A000-SIDEBARNAMED",
+    "BTTIsPureAction": true,
+    "BTTUUID": "D553CE61-9DEB-4C9F-B408-E17875706186",
+    "BTTPredefinedActionType": 264,
+    "BTTPredefinedActionName": "",
+    "BTTShortcutToSend": "56,55,1",
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Toggle sidebar (sidebar_cmd_shift_s)"
+ }
+]
