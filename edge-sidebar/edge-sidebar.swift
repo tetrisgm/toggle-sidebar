@@ -30,15 +30,21 @@ struct Hit { let id: Int; let pid: pid_t; let bundle: String; let rect: CGRect }
 let minSize = CGSize(width: 500, height: 300)   // smaller windows (popovers, previews, panels) are ignored
 func windowAt(_ p: CGPoint) -> Hit? {
   guard let list = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] else { return nil }
+  var small: Hit? = nil
   for w in list {
     guard (w[kCGWindowLayer as String] as? Int) == 0, (w[kCGWindowAlpha as String] as? Double ?? 1) > 0,
           let b = w[kCGWindowBounds as String] as? [String: CGFloat], let x = b["X"], let y = b["Y"], let wd = b["Width"], let h = b["Height"] else { continue }
     let r = CGRect(x: x, y: y, width: wd, height: h)
     guard r.contains(p) else { continue }
     let pid = pid_t(w[kCGWindowOwnerPID as String] as? Int ?? 0)
-    return Hit(id: w[kCGWindowNumber as String] as? Int ?? 0, pid: pid, bundle: NSRunningApplication(processIdentifier: pid)?.bundleIdentifier ?? "", rect: r)
+    let hit = Hit(id: w[kCGWindowNumber as String] as? Int ?? 0, pid: pid, bundle: NSRunningApplication(processIdentifier: pid)?.bundleIdentifier ?? "", rect: r)
+    // An app's own small windows (tab previews, tooltips, popovers) are looked through to its main window below;
+    // a small window of another app on top counts as that app.
+    if r.width < minSize.width || r.height < minSize.height { if small == nil { small = hit }; continue }
+    if let sm = small, sm.pid != pid { return sm }
+    return hit
   }
-  return nil
+  return small
 }
 // The Dock and menu bar are outside every screen's visible frame; the pointer there never counts.
 func inVisibleArea(_ p: CGPoint) -> Bool {
