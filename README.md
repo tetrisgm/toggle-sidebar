@@ -42,8 +42,8 @@ Use `{"show": "trigger_a", "hide": "trigger_b"}` instead of one name when showin
 
 | Named trigger | Sends | Used by |
 |---|---|---|
-| `safari_tabs_show` / `safari_tabs_hide` | Menu items: Tab Layout → Vertical + Show Sidebar / Hide Sidebar + Tab Layout → Compact | Safari (tabs appear with the sidebar; no strip when it is hidden) |
-| `sidebar_cmd_shift_l` | Cmd+Shift+L | unused (plain Safari sidebar toggle) |
+| `sidebar_cmd_shift_l` | Cmd+Shift+L | Safari (vertical tabs: expanded list ↔ narrow strip) |
+| `safari_tabs_show` / `safari_tabs_hide` | Menu items: Tab Layout → Vertical + Show Sidebar / Hide Sidebar + Tab Layout → Compact | **Not in use.** In Safari 27.3, Hide Sidebar followed by Compact leaves an empty grey column that only quitting Safari clears (2026-11-25) |
 | `sidebar_opt_cmd_s` | Opt+Cmd+S | Finder, Notes |
 | `sidebar_ctrl_cmd_s` | Ctrl+Cmd+S | Mail, Music, TV, Preview, Reminders, Calendar |
 | `sidebar_cmd_b` | Cmd+B | Claude |

@@ -1,8 +1,5 @@
 {
- "com.apple.Safari": {
-  "show": "safari_tabs_show",
-  "hide": "safari_tabs_hide"
- },
+ "com.apple.Safari": "sidebar_cmd_shift_l",
  "com.apple.finder": "sidebar_opt_cmd_s",
  "com.apple.Notes": "sidebar_opt_cmd_s",
  "com.apple.mail": "sidebar_ctrl_cmd_s",
