@@ -1,8 +1,8 @@
 # Agent entry point
 
-This repo owns the Mac's BetterTouchTool (BTT) triggers and the `edge-sidebar` helper. Start with README.md: it lists
-every gesture, the restore steps and the known issues. Keep `bettertouchtool/triggers.json` and the README table in
-step with what is live in BTT; commit and push after a verified change.
+This repo owns the `edge-sidebar` helper and the BetterTouchTool (BTT) triggers it calls. Start with README.md: it
+lists the apps covered, how the helper works and the known limits. Keep `bettertouchtool/triggers.json`, the example
+app list and the README tables in step with what is live; commit and push after a verified change.
 
 ## Working with BetterTouchTool
 
