@@ -115,6 +115,8 @@ The AppleScripts are in `bettertouchtool/scripts/` and run inside BetterTouchToo
 permission. They search all of Safari's windows, because a tab preview can be the frontmost one.
 `safari_tabcol_toggle` does the same as a single toggle, free to bind to a key or gesture.
 
+![Sweeping the pointer down Safari's tab column, each tab showing as it passes](docs/tab-scrubbing.gif)
+
 **Tab scrubbing** (`"scrubTabs": true`): while the column is open, sweep the pointer down the tabs and each one shows
 as you pass over it. Whichever tab you end on stays selected, no click needed.
 Row positions come from the `safari_tab_geometry` trigger; the switching uses Safari's own AppleScript, so macOS asks
