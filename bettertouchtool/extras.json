@@ -136,5 +136,64 @@
    }
   ],
   "BTTGestureNotes": "End: scroll to bottom"
+ },
+ {
+  "BTTTriggerType": 124,
+  "BTTTriggerTypeDescriptionReadOnly": "1 Finger Tap Top Middle",
+  "BTTTriggerTypeDescription": "Close tab (Cmd+W)",
+  "BTTTriggerClass": "BTTTriggerTypeTouchpadAll",
+  "BTTUUID": "5A1C000C-3F5W-4E00-A000-TAPTOPMIDDLE",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C000C-3F5W-4E00-A000-TAPTOPMIDDLE",
+    "BTTIsPureAction": true,
+    "BTTUUID": "F1D243CB-B998-446E-A867-8E707B404E37",
+    "BTTPredefinedActionType": 264,
+    "BTTPredefinedActionName": "",
+    "BTTShortcutToSend": "55,13",
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Close tab (Cmd+W)"
+ },
+ {
+  "BTTTriggerType": 112,
+  "BTTTriggerTypeDescriptionReadOnly": "3 Finger Click",
+  "BTTTriggerTypeDescription": "Close tab (Cmd+W)",
+  "BTTTriggerClass": "BTTTriggerTypeTouchpadAll",
+  "BTTUUID": "5A1C000D-3F5W-4E00-A000-3FCLICKCLOSE",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C000D-3F5W-4E00-A000-3FCLICKCLOSE",
+    "BTTIsPureAction": true,
+    "BTTUUID": "B5620157-0A1D-494D-B29B-A7ED0A9D0966",
+    "BTTPredefinedActionType": 264,
+    "BTTPredefinedActionName": "",
+    "BTTShortcutToSend": "55,13",
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Close tab (Cmd+W)"
+ },
+ {
+  "BTTTriggerType": 104,
+  "BTTTriggerTypeDescriptionReadOnly": "3 Finger Tap",
+  "BTTTriggerTypeDescription": "Middle click",
+  "BTTTriggerClass": "BTTTriggerTypeTouchpadAll",
+  "BTTUUID": "5A1C000E-3F5W-4E00-A000-3FTAPMIDDLE0",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C000E-3F5W-4E00-A000-3FTAPMIDDLE0",
+    "BTTIsPureAction": true,
+    "BTTUUID": "51309DEC-863C-455B-B067-FAF54E5FA41B",
+    "BTTPredefinedActionType": 1,
+    "BTTPredefinedActionName": "Middle Click (At Current Mouse Position)",
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Middle click"
  }
 ]

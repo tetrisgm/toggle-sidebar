@@ -184,6 +184,9 @@ installed by default: `bettertouchtool/restore.sh extras.json` adds them.
 | 3-finger swipe left / right | Snap the window under the pointer to the left / right half of the screen |
 | 3-finger swipe up / down | Mission Control / Show Desktop (turn the macOS three-finger gestures off in System Settings → Trackpad → More Gestures) |
 | Home / End | Send Cmd+Up / Cmd+Down |
+| 3-finger click | Close the current tab (Cmd+W) |
+| 3-finger tap | Middle click (closes the tab under the pointer in Safari, opens links in a new tab) |
+| 1-finger tap, top middle of the trackpad | Close the current tab (Cmd+W) |
 
 `IF` actions carry an archived NSPredicate in `BTTIfConditionData`; `bettertouchtool/pred.swift` generates it from a
 format string.
