@@ -155,6 +155,25 @@ It's a hover trick, not magic.
 - **Safari: do not switch Tab Layout automatically.** Hiding the sidebar and then switching Vertical → Compact left
   an empty grey column in Safari 27.3 that only quitting Safari cleared.
 
+## Bonus: spread to maximise
+
+Spread two fingers apart on the trackpad and the window under your pointer fills the screen. Spread again and it goes
+back to its old size. Like a zoom gesture, but for windows, and no app zooms by accident.
+
+```sh
+extras/spread-maximize/install.sh
+```
+
+Not part of the main install. It's a tiny helper that reads raw trackpad touches (so macOS "Zoom in or out" can stay
+off), checks whether the window under the pointer already fills its display, and asks BetterTouchTool to maximise or
+restore it (named triggers `maximize_on` / `maximize_restore`, in `bettertouchtool/spread-maximize.json`).
+
+- Only a real spread counts: both fingers fully landed, each moving away from the other. Scrolling, two-finger taps
+  and two-finger clicks (right-click) are ignored.
+- Tuning constants (how far, how fast) are at the top of `extras/spread-maximize/spread-maximize.c`; each detected
+  spread is logged to `~/Library/Logs/spread-maximize.log`.
+- "Restore" goes back to the size before BetterTouchTool last maximised that window.
+
 ## Optional extras
 
 `bettertouchtool/extras.json` holds a few unrelated BetterTouchTool triggers from the same setup. They are not
@@ -164,7 +183,6 @@ installed by default: `bettertouchtool/restore.sh extras.json` adds them.
 |---|---|
 | 3-finger swipe left / right | Snap the window under the pointer to the left / right half of the screen |
 | 3-finger swipe up / down | Mission Control / Show Desktop (turn the macOS three-finger gestures off in System Settings → Trackpad → More Gestures) |
-| 2-finger spread | Maximise / restore the window under the pointer (only fires while macOS "Zoom in or out" is on) |
 | Home / End | Send Cmd+Up / Cmd+Down |
 
 `IF` actions carry an archived NSPredicate in `BTTIfConditionData`; `bettertouchtool/pred.swift` generates it from a

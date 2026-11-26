@@ -1,0 +1,58 @@
+[
+ {
+  "BTTTriggerType": 643,
+  "BTTTriggerTypeDescriptionReadOnly": "Named Trigger: maximize_on",
+  "BTTTriggerTypeDescription": "Maximize window under cursor (called by spread-maximize)",
+  "BTTTriggerClass": "BTTTriggerTypeOtherTriggers",
+  "BTTUUID": "5A1C0010-3F5W-4E00-A000-MAXIMIZEON00",
+  "BTTTriggerName": "maximize_on",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C0010-3F5W-4E00-A000-MAXIMIZEON00",
+    "BTTIsPureAction": true,
+    "BTTUUID": "587B6054-074C-44F2-8617-CA4488A5BCA5",
+    "BTTPredefinedActionType": 204,
+    "BTTPredefinedActionName": "Activate or Bring to Front Window Under Cursor",
+    "BTTOrder": 0
+   },
+   {
+    "BTTTriggerParentUUID": "5A1C0010-3F5W-4E00-A000-MAXIMIZEON00",
+    "BTTIsPureAction": true,
+    "BTTUUID": "2E22007E-3717-4086-AC26-44089F76D752",
+    "BTTPredefinedActionType": 21,
+    "BTTPredefinedActionName": "Maximize Window",
+    "BTTOrder": 1
+   }
+  ],
+  "BTTGestureNotes": "Maximize window under cursor (called by spread-maximize)"
+ },
+ {
+  "BTTTriggerType": 643,
+  "BTTTriggerTypeDescriptionReadOnly": "Named Trigger: maximize_restore",
+  "BTTTriggerTypeDescription": "Restore window under cursor (called by spread-maximize)",
+  "BTTTriggerClass": "BTTTriggerTypeOtherTriggers",
+  "BTTUUID": "5A1C0011-3F5W-4E00-A000-MAXIMIZEOFF0",
+  "BTTTriggerName": "maximize_restore",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C0011-3F5W-4E00-A000-MAXIMIZEOFF0",
+    "BTTIsPureAction": true,
+    "BTTUUID": "E9A00069-7176-4DCA-B6EF-BD4153D01F84",
+    "BTTPredefinedActionType": 204,
+    "BTTPredefinedActionName": "Activate or Bring to Front Window Under Cursor",
+    "BTTOrder": 0
+   },
+   {
+    "BTTTriggerParentUUID": "5A1C0011-3F5W-4E00-A000-MAXIMIZEOFF0",
+    "BTTIsPureAction": true,
+    "BTTUUID": "37402CD0-8968-4102-93CB-57347CB35717",
+    "BTTPredefinedActionType": 84,
+    "BTTPredefinedActionName": "Restore Old Window Size",
+    "BTTOrder": 1
+   }
+  ],
+  "BTTGestureNotes": "Restore window under cursor (called by spread-maximize)"
+ }
+]
