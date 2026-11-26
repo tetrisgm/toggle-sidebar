@@ -26,6 +26,9 @@ Behaviour the definitions do not make obvious:
 - "Pinch In/Out" only fire while macOS "Zoom in or out" is on. Thumb-and-two-finger spreads are read as three-finger
   swipes and collide with the swipe triggers.
 - BTT has screen-edge triggers but none for window edges; that is why `edge-sidebar` exists.
+- A `Run AppleScript (Blocking)` action (172) runs with BTT's Accessibility permission, so `System Events` UI
+  scripting works there even though it fails from an agent shell. Fire it with `trigger_action` and have the script
+  write its result to a file to read UI state (this is how Safari's tab-column splitter was found).
 - `open -g "btt://trigger_named/?trigger_name=X"` runs a named trigger without stealing focus and needs no permission.
 
 ## Limits on this Mac

@@ -380,5 +380,86 @@
    }
   ],
   "BTTGestureNotes": "Safari: hide sidebar + compact tabs"
+ },
+ {
+  "BTTTriggerType": 643,
+  "BTTTriggerTypeDescriptionReadOnly": "Named Trigger: safari_tabcol_expand",
+  "BTTTriggerTypeDescription": "Safari: expand vertical tab column",
+  "BTTTriggerClass": "BTTTriggerTypeOtherTriggers",
+  "BTTUUID": "5A1C00B7-3F5W-4E00-A000-SIDEBARNAMED",
+  "BTTTriggerName": "safari_tabcol_expand",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C00B7-3F5W-4E00-A000-SIDEBARNAMED",
+    "BTTIsPureAction": true,
+    "BTTUUID": "AB5EAA31-A5C4-4BCA-972C-0E9BBF070CAB",
+    "BTTPredefinedActionType": 172,
+    "BTTPredefinedActionName": "Run Apple Script (blocking)",
+    "BTTAdditionalActionData": {
+     "BTTScriptType": 0,
+     "BTTAppleScriptUsePath": false,
+     "BTTScriptLocation": 0,
+     "BTTAppleScriptRunInBackground": false,
+     "BTTAppleScriptString": "-- Safari vertical tabs: the tab column is \"splitter 2\" of the window's split group; its value is the column width.\n-- Below ~53 px Safari shows the icon-only strip. The last expanded width is kept in ~/.config/safari-tabcol-width.\nset f to (POSIX path of (path to home folder)) & \".config/safari-tabcol-width\"\ntell application \"System Events\" to tell process \"Safari\"\n set s to splitter 2 of splitter group 1 of window 1\n set v to (value of s) as real\n if v < 80 then\n  set w to 210\n  try\n   set w to (do shell script \"cat \" & quoted form of f) as integer\n  end try\n  if w < 120 then set w to 210\n  set value of s to w\n end if\nend tell"
+    },
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Safari: expand vertical tab column"
+ },
+ {
+  "BTTTriggerType": 643,
+  "BTTTriggerTypeDescriptionReadOnly": "Named Trigger: safari_tabcol_collapse",
+  "BTTTriggerTypeDescription": "Safari: collapse vertical tab column to icons",
+  "BTTTriggerClass": "BTTTriggerTypeOtherTriggers",
+  "BTTUUID": "5A1C00B8-3F5W-4E00-A000-SIDEBARNAMED",
+  "BTTTriggerName": "safari_tabcol_collapse",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C00B8-3F5W-4E00-A000-SIDEBARNAMED",
+    "BTTIsPureAction": true,
+    "BTTUUID": "C2D81DBC-F6E9-4C94-A688-CB0F8CA29184",
+    "BTTPredefinedActionType": 172,
+    "BTTPredefinedActionName": "Run Apple Script (blocking)",
+    "BTTAdditionalActionData": {
+     "BTTScriptType": 0,
+     "BTTAppleScriptUsePath": false,
+     "BTTScriptLocation": 0,
+     "BTTAppleScriptRunInBackground": false,
+     "BTTAppleScriptString": "-- Safari vertical tabs: the tab column is \"splitter 2\" of the window's split group; its value is the column width.\n-- Below ~53 px Safari shows the icon-only strip. The last expanded width is kept in ~/.config/safari-tabcol-width.\nset f to (POSIX path of (path to home folder)) & \".config/safari-tabcol-width\"\ntell application \"System Events\" to tell process \"Safari\"\n set s to splitter 2 of splitter group 1 of window 1\n set v to (value of s) as real\n if v > 80 then\n  do shell script \"printf %s \" & (round v) & \" > \" & quoted form of f\n  set value of s to 40\n end if\nend tell"
+    },
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Safari: collapse vertical tab column to icons"
+ },
+ {
+  "BTTTriggerType": 643,
+  "BTTTriggerTypeDescriptionReadOnly": "Named Trigger: safari_tabcol_toggle",
+  "BTTTriggerTypeDescription": "Safari: toggle vertical tab column",
+  "BTTTriggerClass": "BTTTriggerTypeOtherTriggers",
+  "BTTUUID": "5A1C00B9-3F5W-4E00-A000-SIDEBARNAMED",
+  "BTTTriggerName": "safari_tabcol_toggle",
+  "BTTOrder": 0,
+  "BTTActionsToExecute": [
+   {
+    "BTTTriggerParentUUID": "5A1C00B9-3F5W-4E00-A000-SIDEBARNAMED",
+    "BTTIsPureAction": true,
+    "BTTUUID": "F20920EF-1387-4B3E-B2AD-508532C9B912",
+    "BTTPredefinedActionType": 172,
+    "BTTPredefinedActionName": "Run Apple Script (blocking)",
+    "BTTAdditionalActionData": {
+     "BTTScriptType": 0,
+     "BTTAppleScriptUsePath": false,
+     "BTTScriptLocation": 0,
+     "BTTAppleScriptRunInBackground": false,
+     "BTTAppleScriptString": "-- Safari vertical tabs: the tab column is \"splitter 2\" of the window's split group; its value is the column width.\n-- Below ~53 px Safari shows the icon-only strip. The last expanded width is kept in ~/.config/safari-tabcol-width.\nset f to (POSIX path of (path to home folder)) & \".config/safari-tabcol-width\"\ntell application \"System Events\" to tell process \"Safari\"\n set s to splitter 2 of splitter group 1 of window 1\n set v to (value of s) as real\n if v > 80 then\n  do shell script \"printf %s \" & (round v) & \" > \" & quoted form of f\n  set value of s to 40\n else\n  set w to 210\n  try\n   set w to (do shell script \"cat \" & quoted form of f) as integer\n  end try\n  if w < 120 then set w to 210\n  set value of s to w\n end if\nend tell"
+    },
+    "BTTOrder": 0
+   }
+  ],
+  "BTTGestureNotes": "Safari: toggle vertical tab column"
  }
 ]

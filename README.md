@@ -42,7 +42,9 @@ Use `{"show": "trigger_a", "hide": "trigger_b"}` instead of one name when showin
 
 | Named trigger | Sends | Used by |
 |---|---|---|
-| `sidebar_cmd_shift_l` | Cmd+Shift+L | Safari (vertical tabs: expanded list ↔ narrow strip) |
+| `safari_tabcol_expand` / `safari_tabcol_collapse` | AppleScript: sets the width of Safari's vertical tab column (expanded with titles / icon-only strip) | Safari |
+| `safari_tabcol_toggle` | Same, as one toggle | free to bind to a key or gesture |
+| `sidebar_cmd_shift_l` | Cmd+Shift+L | unused (opens Safari's separate sidebar, not the tab column) |
 | `safari_tabs_show` / `safari_tabs_hide` | Menu items: Tab Layout → Vertical + Show Sidebar / Hide Sidebar + Tab Layout → Compact | **Not in use.** In Safari 27.3, Hide Sidebar followed by Compact leaves an empty grey column that only quitting Safari clears (2026-11-25) |
 | `sidebar_opt_cmd_s` | Opt+Cmd+S | Finder, Notes |
 | `sidebar_ctrl_cmd_s` | Ctrl+Cmd+S | Mail, Music, TV, Preview, Reminders, Calendar |
@@ -52,6 +54,14 @@ Use `{"show": "trigger_a", "hide": "trigger_b"}` instead of one name when showin
 An app with a different shortcut needs a new named trigger in BetterTouchTool (trigger type "Named Trigger", one
 "Send Keyboard Shortcut" action); add it to `triggers.json` too. Find a bundle identifier with
 `osascript -e 'id of app "Name"'`.
+
+### Safari's vertical tab column
+
+Safari has no command or shortcut for collapsing the vertical tab column. The `safari_tabcol_*` triggers run an
+AppleScript inside BetterTouchTool (it has the Accessibility permission) that sets the value of `splitter 2 of
+splitter group 1` of the front Safari window: 40 collapses to the icon strip (Safari settles at about 52), the saved
+width (`~/.config/safari-tabcol-width`, default 210) expands. Sources: `bettertouchtool/scripts/`. They only do
+something while Tab Layout is Vertical.
 
 ## Known issues
 
