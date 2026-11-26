@@ -116,7 +116,7 @@ permission. They search all of Safari's windows, because a tab preview can be th
 `safari_tabcol_toggle` does the same as a single toggle, free to bind to a key or gesture.
 
 **Tab scrubbing** (`"scrubTabs": true`): while the column is open, sweep the pointer down the tabs and each one shows
-as you pass over it. Move away without clicking and you're back on the tab you started from; click one to stay there.
+as you pass over it. Whichever tab you end on stays selected, no click needed.
 Row positions come from the `safari_tab_geometry` trigger; the switching uses Safari's own AppleScript, so macOS asks
 once whether `edge-sidebar` may control Safari. Sleeping tabs reload when you pass them.
 

@@ -79,11 +79,10 @@ func note(_ m: String) {
 }
 let tracePath = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".config/edge-sidebar.trace").path
 // Safari tab scrubbing ("scrubTabs": true): while the tab column is revealed, the tab under the pointer is shown
-// as the pointer passes over it. Leaving without a click goes back to the tab that was showing before; a click keeps
-// the one clicked. Row positions come from BetterTouchTool's "safari_tab_geometry" trigger (Accessibility), the
+// as the pointer passes over it, and the last one shown stays selected. Row positions come from BetterTouchTool's "safari_tab_geometry" trigger (Accessibility), the
 // switching itself is Safari's own AppleScript (needs the one-time "control Safari" approval).
 let geometryPath = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".config/safari-tab-geometry").path
-struct Scrub { var rows: [CGRect] = []; var rowsAt = Date.distantPast; var original: Int? = nil; var shown: Int? = nil; var clicks: UInt32 = 0 }
+struct Scrub { var rows: [CGRect] = []; var rowsAt = Date.distantPast; var shown: Int? = nil }
 var scrub: Scrub? = nil
 let safariQueue = DispatchQueue(label: "safari")
 var pendingTab: Int? = nil
@@ -117,13 +116,9 @@ func refreshRows() {
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { loadRows() } }
 }
 func startScrub() {
-  scrub = Scrub(clicks: CGEventSource.counterForEventType(.combinedSessionState, eventType: .leftMouseDown))
+  scrub = Scrub()
   try? FileManager.default.removeItem(atPath: geometryPath)
   DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { refreshRows() }      // after the column has expanded
-  safariQueue.async {
-    let r = runSafari("tell application \"Safari\" to get index of current tab of front window")
-    DispatchQueue.main.async { scrub?.original = r.map { Int($0.int32Value) } }
-  }
 }
 func scrubTick(_ p: CGPoint) {
   guard var s = scrub else { return }
@@ -136,9 +131,7 @@ func scrubTick(_ p: CGPoint) {
 func endScrub() {
   guard let s = scrub else { return }
   scrub = nil
-  let clicked = CGEventSource.counterForEventType(.combinedSessionState, eventType: .leftMouseDown) != s.clicks
-  if !clicked, s.shown != nil, let o = s.original, o != s.shown { showTab(o); note("scrub: back to tab \(o)") }
-  else if s.shown != nil { note("scrub: kept tab \(s.shown!)") }
+  if let t = s.shown { note("scrub: stayed on tab \(t)") }
 }
 var last = CGPoint(x: -1, y: -1)
 var candidate: (id: Int, since: Date)? = nil
