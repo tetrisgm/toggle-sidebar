@@ -77,6 +77,7 @@ func note(_ m: String) {
   let f = DateFormatter(); f.dateFormat = "HH:mm:ss.SSS"
   FileHandle.standardError.write((f.string(from: Date()) + " " + m + "\n").data(using: .utf8)!)
 }
+let tracePath = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".config/edge-sidebar.trace").path
 var last = CGPoint(x: -1, y: -1)
 var candidate: (id: Int, since: Date)? = nil
 var revealed: (hit: Hit, rule: Rule, outSince: Date?)? = nil
@@ -87,6 +88,10 @@ Timer.scheduledTimer(withTimeInterval: 0.04, repeats: true) { _ in
   if !moved && candidate == nil && revealed?.outSince == nil { return }
   if CGEventSource.buttonState(.combinedSessionState, button: .left) { candidate = nil; return }   // not while dragging
   let hit = windowAt(p)
+  // Trace mode: while ~/.config/edge-sidebar.trace exists, log what is under the pointer whenever it is near a left edge.
+  if FileManager.default.fileExists(atPath: tracePath), p.x - (hit?.rect.minX ?? -9999) < 400 {
+    lastNote = ""; note("trace x=\(Int(p.x)) y=\(Int(p.y)) over \(hit?.bundle ?? "nothing") \(Int(hit?.rect.width ?? 0))x\(Int(hit?.rect.height ?? 0)) left=\(Int(hit?.rect.minX ?? 0)) state=\(revealed != nil ? "revealed" : candidate != nil ? "candidate" : "idle")")
+  }
   if var r = revealed {
     if let h = hit, h.id == r.hit.id { r.hit = h }
     let rect = r.hit.rect
